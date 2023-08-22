@@ -46,22 +46,21 @@ export const useFieldTime = (value: string | null, onChange: ((time: string) => 
         }
     }
 
-    const incrementHour = () => {
-        let newHH = parseInt(hh, 10) + 1;
-        if (newHH > 23) {
-            newHH = 0
-        }
-        setHH(newHH.toString().padStart(2, '0'));
-        updateTime(newHH.toString().padStart(2, '0'), mm)
-    }
-
-    const decrementHour = () => {
-        let newHH = parseInt(hh, 10) - 1
+    const updateHour = (offset: number) => {
+        let newHH = (parseInt(hh, 10) + offset) % 24;
         if (newHH < 0) {
             newHH = 23;
         }
         setHH(newHH.toString().padStart(2, '0'));
-        updateTime(newHH.toString().padStart(2, '0'), mm)
+        updateTime(newHH.toString().padStart(2, '0'), mm);
+    }
+
+    const incrementHour = () => {
+        updateHour(1)
+    }
+
+    const decrementHour = () => {
+        updateHour(-1)
     }
 
     return {
